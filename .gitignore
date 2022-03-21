@@ -1,0 +1,19 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/.vs
+/QuizApp/bin/Debug/net6.0-windows
+/QuizApp/obj
+/QuizApp.Data/bin/Debug/net6.0-windows
+/QuizApp.Data/obj
+/QuizApp.Entity/obj
+/QuizApp.Test/bin/Debug/net6.0-windows
+/QuizApp.Test/obj
+/QuizApp.Entity/bin/Debug/net6.0-windows
+/QuizApp.Monitor/bin/Debug/net6.0-windows
+/QuizApp.Monitor/obj
+/QuizApp.Server/bin/Debug/net6.0
+/QuizApp.Server/obj
+/QuizApp.Service/bin/Debug/net6.0-windows
+/QuizApp.Service/obj
