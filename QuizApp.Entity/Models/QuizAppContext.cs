@@ -5,7 +5,6 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace QuizApp.Entity.Models
 {
-    //Scaffold-DbContext "Server=.;Database=QuizApp;Integrated Security=False;Persist Security Info=False;User ID=QuizAppUser;Password=ezt7XpATfEMEvYzu" Microsoft.EntityFrameworkCore.SqlServer -OutputDir Models -force
     public partial class QuizAppContext : DbContext
     {
         public QuizAppContext()
@@ -113,7 +112,7 @@ namespace QuizApp.Entity.Models
                     .HasMaxLength(2000)
                     .IsUnicode(false);
 
-                entity.HasOne(d => d.Questiont)
+                entity.HasOne(d => d.Questions)
                     .WithMany(p => p.Options)
                     .HasForeignKey(d => d.QuestiontId)
                     .HasConstraintName("FK_Option_Question");
@@ -134,6 +133,7 @@ namespace QuizApp.Entity.Models
                 entity.HasOne(d => d.Subject)
                     .WithMany(p => p.Questions)
                     .HasForeignKey(d => d.SubjectId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Question_Subject");
             });
 

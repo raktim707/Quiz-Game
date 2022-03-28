@@ -13,11 +13,11 @@ namespace QuizApp.Entity.Models
 
         public int Id { get; set; }
         public string Text { get; set; } = null!;
-        public int? SubjectId { get; set; }
+        public int SubjectId { get; set; }
         public DateTime? CreatedDate { get; set; }
         public DateTime? LastModifiedDate { get; set; }
 
-        public virtual Subject? Subject { get; set; }
+        public virtual Subject Subject { get; set; } = null!;
         public virtual ICollection<ExamQuestion> ExamQuestions { get; set; }
         public virtual ICollection<Option> Options { get; set; }
     }

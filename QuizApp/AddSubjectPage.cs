@@ -25,15 +25,23 @@ namespace QuizApp
 
         private void button1_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(textBoxSubjectName.Text))
+            try
             {
-                MessageBox.Show("Please enter a name", "Warning");
+                if (string.IsNullOrEmpty(textBoxSubjectName.Text))
+                {
+                    MessageBox.Show("Please enter a name", "Warning");
+                    return;
+                }
+                var subject = subjectService.AddSubject(new Entity.DTO.SubjectDTO { Name = textBoxSubjectName.Text });
+
+                subjectDTOs = subjectService.GetAll();
+                dataGridView1.DataSource = subjectDTOs;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            var subject = subjectService.AddSubject(new Entity.DTO.SubjectDTO { Name = textBoxSubjectName.Text });
-
-            subjectDTOs = subjectService.GetAll();
-            dataGridView1.DataSource = subjectDTOs;
         }
     }
 }

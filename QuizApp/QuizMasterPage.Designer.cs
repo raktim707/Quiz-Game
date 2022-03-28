@@ -29,17 +29,28 @@
         private void InitializeComponent()
         {
             this.groupSubjects = new System.Windows.Forms.GroupBox();
+            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.button1 = new System.Windows.Forms.Button();
+            this.groupSubjects.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupSubjects
             // 
+            this.groupSubjects.Controls.Add(this.flowLayoutPanel1);
             this.groupSubjects.Location = new System.Drawing.Point(12, 12);
             this.groupSubjects.Name = "groupSubjects";
-            this.groupSubjects.Size = new System.Drawing.Size(539, 333);
+            this.groupSubjects.Size = new System.Drawing.Size(764, 330);
             this.groupSubjects.TabIndex = 1;
             this.groupSubjects.TabStop = false;
-            this.groupSubjects.Text = "groupBox1";
+            // 
+            // flowLayoutPanel1
+            // 
+            this.flowLayoutPanel1.AutoScroll = true;
+            this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(3, 19);
+            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(758, 308);
+            this.flowLayoutPanel1.TabIndex = 1;
             // 
             // button1
             // 
@@ -63,6 +74,7 @@
             this.Name = "QuizMasterPage";
             this.Text = "QuizMasterPage";
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.QuizMasterPage_KeyDown);
+            this.groupSubjects.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -71,5 +83,6 @@
 
         private GroupBox groupSubjects;
         private Button button1;
+        private FlowLayoutPanel flowLayoutPanel1;
     }
 }

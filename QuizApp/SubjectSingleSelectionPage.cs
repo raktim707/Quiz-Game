@@ -1,4 +1,5 @@
 ﻿using QuizApp.Entity.DTO;
+using QuizApp.Service;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -15,6 +16,8 @@ namespace QuizApp
     public partial class SubjectSingleSelectionPage : Form
     {
         private ExamDTO examDTO;
+        private SubjectService subjectService = new SubjectService();
+        private List<SubjectDTO> subjectDTOs = new List<SubjectDTO>();
 
         public SubjectSingleSelectionPage()
         {
@@ -25,32 +28,39 @@ namespace QuizApp
 
         private void FillSubjects()
         {
-            List<string> yourList = new List<string>();
-            yourList.Add("Math");
-            yourList.Add("Science");
-            yourList.Add("Geography");
-            yourList.Add("Chemistry");
-            RadioButton box;
-           
-            int innitialOffset = 20;
-            int xDistance = 200;
-            int yDistance = 50;
-
-            for (int i = 0; i < yourList.Count; i++)
+            try
             {
-                box = new RadioButton();
-                box.Tag = yourList[i];
-                box.Name = "subject" + i;
-                box.Text = yourList[i].ToString();
-                box.AutoSize = true;
-                if (yourList.Count < 8)
-                    box.Location = new Point(innitialOffset + xDistance, innitialOffset + i * yDistance);
-                else if (yourList.Count < 15)
-                    box.Location = new Point(innitialOffset + i % 2 * xDistance, innitialOffset + i / 2 * yDistance);
-                else
-                    box.Location = new Point(innitialOffset + i % 3 * xDistance, innitialOffset + i / 3 * yDistance);
+                subjectDTOs = subjectService.GetAll();
 
-                this.groupSubjects.Controls.Add(box);
+                RadioButton box;
+
+                int innitialOffset = 20;
+                int xDistance = 200;
+                int yDistance = 50;
+                int i = 0;
+
+                foreach (var subject in subjectDTOs)
+                {
+                    box = new RadioButton();
+                    box.Tag = subject.Name;
+                    box.Name = "subject" + subject.Id;
+                    box.Text = subject.Name;
+                    box.AutoSize = true;
+                    if (subjectDTOs.Count < 8)
+                        box.Location = new Point(innitialOffset + xDistance, innitialOffset + i * yDistance);
+                    else if (subjectDTOs.Count < 15)
+                        box.Location = new Point(innitialOffset + i % 2 * xDistance, innitialOffset + i / 2 * yDistance);
+                    else
+                        box.Location = new Point(innitialOffset + i % 3 * xDistance, innitialOffset + i / 3 * yDistance);
+
+                    this.groupSubjects.Controls.Add(box);
+                    i++;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
             }
         }
 
@@ -63,12 +73,42 @@ namespace QuizApp
 
         private void button1_Click(object sender, EventArgs e)
         {
-            var g = groupSubjects.Controls.OfType<RadioButton>().Where(c => c.Checked).Select(c=> new { c.Text, c.Name, c.Tag}).ToList();
+            try
+            {
+                var selected = groupSubjects.Controls.OfType<RadioButton>().Where(c => c.Checked).Select(c => new { c.Text, c.Name, c.Tag }).ToList();
 
-            this.Hide();
-            Form form = new SetTimersPage(examDTO);
-            form.Closed += (s, args) => this.Close();
-            form.Show();
+                if (selected == null || selected.Count == 0)
+                {
+                    MessageBox.Show("Please select a subject", "Warning");
+                    return;
+                }
+                else if (string.IsNullOrEmpty(textBoxQuestionCount.Text))
+                {
+                    MessageBox.Show("Please enter question count", "Warning");
+                    return;
+                }
+
+                int subjectId = int.Parse(selected.FirstOrDefault().Name.Replace("subject", ""));
+                int questionCount = int.Parse(textBoxQuestionCount.Text);
+
+                examDTO.QuestionCount = questionCount;
+                examDTO.Subjects.Add(new SubjectDTO { Id = subjectId, Name = selected.FirstOrDefault().Text, QuestionCount = questionCount });
+
+                this.Hide();
+                Form form = new SetTimersPage(examDTO);
+                form.Closed += (s, args) => this.Close();
+                form.Show();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+        }
+
+        private void textBoxQuestionCount_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            Utility.Utility.CheckIsNumericChar(e);
         }
     }
 }

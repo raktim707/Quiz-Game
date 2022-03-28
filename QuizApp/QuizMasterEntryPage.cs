@@ -20,18 +20,26 @@ namespace QuizApp
 
         private void button1_Click(object sender, EventArgs e)
         {
-            if(string.IsNullOrEmpty(textBox1.Text))
+            try
             {
-                MessageBox.Show("Please enter a name", "Warning");
+                if (string.IsNullOrEmpty(textBox1.Text))
+                {
+                    MessageBox.Show("Please enter a name", "Warning");
+                    return;
+                }
+                ExamDTO examDTO = new ExamDTO();
+                examDTO.MasterName = textBox1.Text;
+
+                this.Hide();
+                Form form = new ParticipantCountEntryPage(examDTO);
+                form.Closed += (s, args) => this.Close();
+                form.Show();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            ExamDTO examDTO = new ExamDTO();
-            examDTO.MasterName = textBox1.Text;
-
-            this.Hide();
-            Form form = new ParticipantCountEntryPage(examDTO);
-            form.Closed += (s, args) => this.Close();
-            form.Show();
 
         }
     }

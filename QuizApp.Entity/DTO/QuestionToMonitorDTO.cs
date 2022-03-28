@@ -19,5 +19,7 @@ namespace QuizApp.Entity.DTO
         public int TimeToAnswer { get; set; }
         public string AnsweredParticipantName { get; set; }
         public bool IsPressedButton { get; set; }
+        public string TopScorer { get; set; }
+        public bool IsAnswered { get; set; }
     }
 }

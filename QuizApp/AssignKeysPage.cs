@@ -25,20 +25,28 @@ namespace QuizApp
 
         private void button1_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(textBoxNumberOfParticipant.Text))
+            try
             {
-                MessageBox.Show("Please enter a number", "Warning");
-                return;
-            }
-            else if (string.IsNullOrEmpty(textBoxKey.Text))
-            {
-                MessageBox.Show("Please enter a number", "Warning");
-                return;
-            }
-            var subject = assignKeyService.AddButtonKey(new ButtonKeyDTO { Number = int.Parse(textBoxNumberOfParticipant.Text), Key=textBoxKey.Text});
+                if (string.IsNullOrEmpty(textBoxNumberOfParticipant.Text))
+                {
+                    MessageBox.Show("Please enter a number", "Warning");
+                    return;
+                }
+                else if (string.IsNullOrEmpty(textBoxKey.Text))
+                {
+                    MessageBox.Show("Please enter a number", "Warning");
+                    return;
+                }
+                var subject = assignKeyService.AddButtonKey(new ButtonKeyDTO { Number = int.Parse(textBoxNumberOfParticipant.Text), Key = textBoxKey.Text });
 
-            buttonKeyDTOs = assignKeyService.GetAll();
-            dataGridView1.DataSource = buttonKeyDTOs;
+                buttonKeyDTOs = assignKeyService.GetAll();
+                dataGridView1.DataSource = buttonKeyDTOs;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
         }
 
         private void textBoxNumberOfParticipant_KeyPress(object sender, KeyPressEventArgs e)

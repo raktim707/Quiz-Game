@@ -12,6 +12,6 @@ namespace QuizApp.Entity.Models
         public DateTime? CreatedDate { get; set; }
         public DateTime? LastModifiedDate { get; set; }
 
-        public virtual Question? Questiont { get; set; }
+        public virtual Question? Questions { get; set; }
     }
 }

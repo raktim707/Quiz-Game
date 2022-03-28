@@ -47,6 +47,8 @@
             this.groupBoxQuestion = new System.Windows.Forms.GroupBox();
             this.labelOptions = new System.Windows.Forms.Label();
             this.labelQuestion = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.labelTopScorer = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBoxAnswer.SuspendLayout();
@@ -78,6 +80,8 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.labelTopScorer);
+            this.groupBox2.Controls.Add(this.label5);
             this.groupBox2.Controls.Add(this.groupBoxAnswer);
             this.groupBox2.Controls.Add(this.label4);
             this.groupBox2.Controls.Add(this.labelCountdownToPress);
@@ -85,9 +89,9 @@
             this.groupBox2.Controls.Add(this.labelNumberofQuestions);
             this.groupBox2.Controls.Add(this.label2);
             this.groupBox2.Controls.Add(this.labelNumberOfParticipants);
-            this.groupBox2.Location = new System.Drawing.Point(523, 36);
+            this.groupBox2.Location = new System.Drawing.Point(523, 14);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(280, 399);
+            this.groupBox2.Size = new System.Drawing.Size(280, 421);
             this.groupBox2.TabIndex = 5;
             this.groupBox2.TabStop = false;
             // 
@@ -131,9 +135,8 @@
             this.labelAnsweredParticipant.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.labelAnsweredParticipant.Location = new System.Drawing.Point(141, 19);
             this.labelAnsweredParticipant.Name = "labelAnsweredParticipant";
-            this.labelAnsweredParticipant.Size = new System.Drawing.Size(104, 30);
+            this.labelAnsweredParticipant.Size = new System.Drawing.Size(0, 30);
             this.labelAnsweredParticipant.TabIndex = 10;
-            this.labelAnsweredParticipant.Text = "John Doe";
             // 
             // labelCountdownToAnswer
             // 
@@ -163,9 +166,9 @@
             this.labelCountdownToPress.Font = new System.Drawing.Font("Segoe UI", 32F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.labelCountdownToPress.Location = new System.Drawing.Point(142, 149);
             this.labelCountdownToPress.Name = "labelCountdownToPress";
-            this.labelCountdownToPress.Size = new System.Drawing.Size(71, 59);
+            this.labelCountdownToPress.Size = new System.Drawing.Size(48, 59);
             this.labelCountdownToPress.TabIndex = 8;
-            this.labelCountdownToPress.Text = "60";
+            this.labelCountdownToPress.Text = "0";
             // 
             // label3
             // 
@@ -183,9 +186,9 @@
             this.labelNumberofQuestions.Font = new System.Drawing.Font("Segoe UI", 32F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.labelNumberofQuestions.Location = new System.Drawing.Point(142, 83);
             this.labelNumberofQuestions.Name = "labelNumberofQuestions";
-            this.labelNumberofQuestions.Size = new System.Drawing.Size(134, 59);
+            this.labelNumberofQuestions.Size = new System.Drawing.Size(88, 59);
             this.labelNumberofQuestions.TabIndex = 6;
-            this.labelNumberofQuestions.Text = "19/30";
+            this.labelNumberofQuestions.Text = "0/0";
             // 
             // label2
             // 
@@ -203,9 +206,9 @@
             this.labelNumberOfParticipants.Font = new System.Drawing.Font("Segoe UI", 32F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.labelNumberOfParticipants.Location = new System.Drawing.Point(142, 17);
             this.labelNumberOfParticipants.Name = "labelNumberOfParticipants";
-            this.labelNumberOfParticipants.Size = new System.Drawing.Size(71, 59);
+            this.labelNumberOfParticipants.Size = new System.Drawing.Size(48, 59);
             this.labelNumberOfParticipants.TabIndex = 4;
-            this.labelNumberOfParticipants.Text = "30";
+            this.labelNumberOfParticipants.Text = "0";
             // 
             // labelSubject
             // 
@@ -258,6 +261,26 @@
             this.labelQuestion.TabIndex = 0;
             this.labelQuestion.Text = "Question";
             // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(11, 359);
+            this.label5.MaximumSize = new System.Drawing.Size(120, 0);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(62, 15);
+            this.label5.TabIndex = 13;
+            this.label5.Text = "Top Scorer";
+            // 
+            // labelTopScorer
+            // 
+            this.labelTopScorer.AutoSize = true;
+            this.labelTopScorer.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
+            this.labelTopScorer.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.labelTopScorer.Location = new System.Drawing.Point(147, 359);
+            this.labelTopScorer.Name = "labelTopScorer";
+            this.labelTopScorer.Size = new System.Drawing.Size(0, 30);
+            this.labelTopScorer.TabIndex = 13;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -299,5 +322,7 @@
         private Label labelNumberOfParticipants;
         private GroupBox groupBoxAnswer;
         private Label labelId;
+        private Label labelTopScorer;
+        private Label label5;
     }
 }

@@ -2,6 +2,7 @@
 using QuizApp.Data.EntityFramework;
 using QuizApp.Entity.DTO;
 using QuizApp.Entity.Models;
+using System.Linq.Expressions;
 
 namespace QuizApp.Service
 {
@@ -34,6 +35,17 @@ namespace QuizApp.Service
                 Name = x.Name,
                 QuestionCount = x.Questions.Count
             }).ToList();
+        }
+
+        public SubjectDTO Get(Expression<Func<Subject, bool>> filter)
+        {
+            Repository<Subject> repository = new Repository<Subject>();
+            return repository.List(filter).Include(x => x.Questions).Select(x => new SubjectDTO
+            {
+                Id = x.Id,
+                Name = x.Name,
+                QuestionCount = x.Questions.Count
+            }).FirstOrDefault();
         }
     }
 }

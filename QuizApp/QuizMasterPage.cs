@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.SignalR.Client;
 using QuizApp.Entity.DTO;
+using QuizApp.Extensions;
 using QuizApp.Service;
 using System;
 using System.Collections.Generic;
@@ -19,8 +20,8 @@ namespace QuizApp
         private ExamDTO examDTO = new ExamDTO();
         private List<QuestionDTO> questionList;
         HubConnection connection;
-        private int numberOfCurrentQuestion =0;
-        private int totalQuestion =0;
+        private int numberOfCurrentQuestion = 0;
+        private int totalQuestion = 0;
         private List<ButtonKeyDTO> buttonKeyDTOs = new List<ButtonKeyDTO>();
         private List<ParticipantDTO> participantDTOs = new List<ParticipantDTO>();
         private AssignKeyService assignKeyService = new AssignKeyService();
@@ -34,7 +35,7 @@ namespace QuizApp
             buttonKeyDTOs = assignKeyService.GetAll();
             participantDTOs = participantService.GetAll();
 
-            FillSubjects();
+            FillQuestions(new List<QuestionDTO>());
         }
 
         private void BuildSignalRConnection()
@@ -54,113 +55,113 @@ namespace QuizApp
         {
             InitializeComponent();
             BuildSignalRConnection();
-            FillSubjects();
+            SetQuestions(examDTO.Subjects);
+            FillQuestions(questionList);
+
             this.examDTO = examDTO;
             totalQuestion = examDTO.QuestionCount;
             buttonKeyDTOs = assignKeyService.GetAll();
             participantDTOs = participantService.GetAll();
         }
 
-        private void FillSubjects()
+        private void SetQuestions(IEnumerable<SubjectDTO> subjects)
         {
+            SubjectService subjectService = new SubjectService();
+            QuestionService questionService = new QuestionService();
             questionList = new List<QuestionDTO>();
-            questionList.Add(
-                new QuestionDTO
-                {
-                    Id = 1,
-                    Subject = "Geography",
-                    QuestionText = "Which's capital city of Turkey?",
-                    CorrectOption = "Ankara",
-                    Options = new List<string> { "Istanbul", "Tokat", "Ankara", "Bayburt" },
 
-                });
-            questionList.Add(
-               new QuestionDTO
-               {
-                   Id = 2,
-                   Subject = "Geography",
-                   QuestionText = "Which's biggest city of Turkey?",
-                   CorrectOption = "Istanbul",
-                   Options = new List<string> { "Istanbul", "Tokat", "Ankara", "Bayburt" }
-               });
-            questionList.Add(
-              new QuestionDTO
-              {
-                  Id = 3,
-                  Subject = "Math",
-                  QuestionText = "2+2?",
-                  CorrectOption = "4",
-                  Options = new List<string> { "3", "4", "5", "22" }
-              });
-            questionList.Add(
-               new QuestionDTO
-               {
-                   Id = 4,
-                   Subject = "Science",
-                   QuestionText = "Which's natural satellite of Earth?",
-                   CorrectOption = "Moon",
-                   Options = new List<string> { "Moon", "Sun", "Jupiter", "Hubble" }
-               });
-            //natural satellite of earth
-
-            RadioButton box;
-            
-            int innitialOffset = 20;
-            int xDistance = 200;
-            int yDistance = 50;
-
-            //for (int i = 0; i < yourList.Count; i++)
-            int i = 0;
-            foreach (var item in questionList)
+            foreach (SubjectDTO subject in subjects)
             {
-                box = new RadioButton();
-                box.Tag = item.Subject;
-                box.Name = "question" + item.Id;
-                box.Text = "Question: " + item.QuestionText + Environment.NewLine + "Answer  : " + item.CorrectOption;
-                box.AutoSize = true;
-                //if (yourList.Count < 8)
-                box.Location = new Point(innitialOffset + xDistance, innitialOffset + i * yDistance);
-                //else if (yourList.Count < 15)
-                //    box.Location = new Point(innitialOffset + i % 2 * xDistance, innitialOffset + i / 2 * yDistance);
-                //else
-                //    box.Location = new Point(innitialOffset + i % 3 * xDistance, innitialOffset + i / 3 * yDistance);
+                var questions = questionService.GetAll(x => x.SubjectId == subject.Id);
+                if (questions != null)
+                    questionList.AddRange(questions.Shuffle().PickRandom(subject.QuestionCount));
+            }
+        }
 
-                this.groupSubjects.Controls.Add(box);
-                i++;
+        private void FillQuestions(List<QuestionDTO> questionList)
+        {
+            try
+            {
+
+                RadioButton radio;
+
+                int innitialOffset = 20;
+                int xDistance = 200;
+                int yDistance = 50;
+
+                //for (int i = 0; i < yourList.Count; i++)
+                int i = 0;
+                foreach (var item in questionList)
+                {
+                    radio = new RadioButton();
+                    flowLayoutPanel1.ScrollControlIntoView(radio);
+                    radio.Tag = item.Subject;
+                    radio.Name = "question" + item.Id;
+                    radio.Text = "Question: " + item.QuestionText + Environment.NewLine + "Answer  : " + item.CorrectOption;
+                    radio.AutoSize = true;
+                    //if (yourList.Count < 8)
+                    radio.Location = new Point(innitialOffset + xDistance, innitialOffset + i * yDistance);
+                    //else if (yourList.Count < 15)
+                    //    box.Location = new Point(innitialOffset + i % 2 * xDistance, innitialOffset + i / 2 * yDistance);
+                    //else
+                    //    box.Location = new Point(innitialOffset + i % 3 * xDistance, innitialOffset + i / 3 * yDistance);
+
+                    this.flowLayoutPanel1.Controls.Add(radio);
+                    i++;
+                }
+            }
+            catch (Exception ex)
+            {
+
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
             }
         }
 
         private async void button1_Click(object sender, EventArgs e)
         {
-            var selectedQuestion = groupSubjects.Controls.OfType<RadioButton>().Where(c => c.Checked).Select(c => new { c.Text, c.Name, c.Tag }).FirstOrDefault();
-            if (selectedQuestion == null)
+            try
             {
-                MessageBox.Show("Please select a question", "Warning");
+                var selectedQuestion = flowLayoutPanel1.Controls.OfType<RadioButton>().Where(c => c.Checked).Select(c => new { c.Text, c.Name, c.Tag }).FirstOrDefault();
+                if (selectedQuestion == null)
+                {
+                    MessageBox.Show("Please select a question", "Warning");
+                    return;
+                }
+                numberOfCurrentQuestion++;
+                var questionId = Int32.Parse(selectedQuestion.Name.Replace("question", ""));
+                currentQuestion = questionList.FirstOrDefault(x => x.Id == questionId);
+
+                currentQuestion.IsAsked = true;
+                string topScorer = participantDTOs.OrderByDescending(x => x.Score).Select(x => x.Name + " (" + x.Score + ")").FirstOrDefault();
+
+                QuestionToMonitorDTO questionToMonitorDTO = new QuestionToMonitorDTO
+                {
+                    QuestionText = currentQuestion.QuestionText,
+                    NumberOfCurrentQuestion = numberOfCurrentQuestion,
+                    Subject = currentQuestion.Subject,
+                    TimeToPressButton = examDTO.PressButtonTime,
+                    TimeToAnswer = examDTO.AnswerTime,
+                    ParticipantCount = examDTO.ParticipantCount,
+                    TotalQuestionCount = examDTO.QuestionCount,
+                    Options = currentQuestion.Options,
+                    TopScorer = topScorer,
+                    IsAnswered = false
+                };
+
+                var modelStr = JsonSerializer.Serialize(questionToMonitorDTO);
+                if (connection.State == HubConnectionState.Disconnected)
+                    await connection.StartAsync();
+
+                await connection.InvokeAsync("SendMessage",
+                           modelStr);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
-            var questionId = Int32.Parse(selectedQuestion.Name.Split("question")[1]);
-            currentQuestion = questionList.FirstOrDefault(x => x.Id == questionId);
-
-            currentQuestion.IsAsked=true;
-
-            QuestionToMonitorDTO questionToMonitorDTO = new QuestionToMonitorDTO
-            {
-                QuestionText = currentQuestion.QuestionText,
-                NumberOfCurrentQuestion = numberOfCurrentQuestion,
-                Subject = currentQuestion.Subject,
-                TimeToPressButton = examDTO.PressButtonTime,
-                ParticipantCount = examDTO.ParticipantCount,
-                TotalQuestionCount = examDTO.QuestionCount,
-                Options = currentQuestion.Options
-            };
-
-            var modelStr = JsonSerializer.Serialize(questionToMonitorDTO);
-            if(connection.State==HubConnectionState.Disconnected)
-                await connection.StartAsync();
-
-            await connection.InvokeAsync("SendMessage",
-                       modelStr);
         }
 
         private async void QuizMasterPage_KeyPress(object sender, KeyPressEventArgs e)
@@ -170,34 +171,81 @@ namespace QuizApp
 
         private async void QuizMasterPage_KeyDown(object sender, KeyEventArgs e)
         {
-            var buttonKey = buttonKeyDTOs.FirstOrDefault(x => x.Key.ToUpper() == e.KeyData.ToString().ToUpper());
-            if (buttonKey != null)
+            try
             {
-                var participant = participantDTOs.FirstOrDefault(x => x.ButtonNumber == buttonKey.Number);
-                if (participant != null)
+                var buttonKey = buttonKeyDTOs.FirstOrDefault(x => x.Key.ToUpper() == e.KeyData.ToString().ToUpper());
+                if (buttonKey != null)
                 {
-                    MessageBox.Show(participant.Name + ", pressed the button!", "Answer");
-
-                    QuestionToMonitorDTO questionToMonitorDTO = new QuestionToMonitorDTO
+                    var participant = participantDTOs.FirstOrDefault(x => x.ButtonNumber == buttonKey.Number && x.ExamId == examDTO.Id);
+                    if (participant != null)
                     {
-                        QuestionText = currentQuestion.QuestionText,
-                        NumberOfCurrentQuestion = numberOfCurrentQuestion,
-                        Subject = currentQuestion.Subject,
-                        TimeToPressButton = examDTO.PressButtonTime,
-                        ParticipantCount = examDTO.ParticipantCount,
-                        TotalQuestionCount = examDTO.QuestionCount,
-                        Options = currentQuestion.Options,
-                        AnsweredParticipantName = participant.Name
-                    };
 
-                    var modelStr = JsonSerializer.Serialize(questionToMonitorDTO);
-                    if (connection.State == HubConnectionState.Disconnected)
-                        await connection.StartAsync();
 
-                    await connection.InvokeAsync("SendMessage",
-                               modelStr);
+                        flowLayoutPanel1.Controls.Clear();
+
+                        FillQuestions(questionList.Where(x => x.IsAsked == false).ToList());
+                        string topScorer = participantDTOs.OrderByDescending(x => x.Score).Select(x => x.Name + " (" + x.Score + ")").FirstOrDefault();
+                        QuestionToMonitorDTO questionToMonitorDTO = new QuestionToMonitorDTO
+                        {
+                            QuestionText = currentQuestion.QuestionText,
+                            NumberOfCurrentQuestion = numberOfCurrentQuestion,
+                            Subject = currentQuestion.Subject,
+                            TimeToPressButton = examDTO.PressButtonTime,
+                            TimeToAnswer = examDTO.AnswerTime,
+                            ParticipantCount = examDTO.ParticipantCount,
+                            TotalQuestionCount = examDTO.QuestionCount,
+                            Options = currentQuestion.Options,
+                            AnsweredParticipantName = participant.Name,
+                            TopScorer = topScorer,
+                            IsAnswered = false
+                        };
+
+                        var modelStr = JsonSerializer.Serialize(questionToMonitorDTO);
+                        if (connection.State == HubConnectionState.Disconnected)
+                            await connection.StartAsync();
+
+                        await connection.InvokeAsync("SendMessage", modelStr);
+
+                        var dialogResult = MessageBox.Show(participant.Name + ", pressed the button! Is the answer is correct?", "Answer", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
+                        if (dialogResult == DialogResult.Yes)
+                        {
+                            participant.Score++;
+                        }
+                        else if (dialogResult == DialogResult.No)
+                        {
+                            participant.Score--;
+                        }
+
+                        topScorer = participantDTOs.OrderByDescending(x => x.Score).Select(x => x.Name + " (" + x.Score + ")").FirstOrDefault();
+                        questionToMonitorDTO = new QuestionToMonitorDTO
+                        {
+                            QuestionText = currentQuestion.QuestionText,
+                            NumberOfCurrentQuestion = numberOfCurrentQuestion,
+                            Subject = currentQuestion.Subject,
+                            TimeToPressButton = examDTO.PressButtonTime,
+                            TimeToAnswer = examDTO.AnswerTime,
+                            ParticipantCount = examDTO.ParticipantCount,
+                            TotalQuestionCount = examDTO.QuestionCount,
+                            Options = currentQuestion.Options,
+                            AnsweredParticipantName = participant.Name,
+                            TopScorer = topScorer,
+                            IsAnswered = true
+                        };
+
+                        modelStr = JsonSerializer.Serialize(questionToMonitorDTO);
+                        if (connection.State == HubConnectionState.Disconnected)
+                            await connection.StartAsync();
+
+                        await connection.InvokeAsync("SendMessage", modelStr);
+                    }
                 }
             }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
         }
     }
 }

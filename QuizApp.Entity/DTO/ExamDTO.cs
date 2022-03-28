@@ -14,5 +14,7 @@ namespace QuizApp.Entity.DTO
         public int PressButtonTime { get; set; }
         public int AnswerTime { get; set; }
         public string? MasterName { get; set; }
+
+        public List<SubjectDTO> Subjects { get; set; } = new List<SubjectDTO>();
     }
 }

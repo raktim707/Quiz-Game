@@ -29,23 +29,58 @@
         private void InitializeComponent()
         {
             this.groupSubjects = new System.Windows.Forms.GroupBox();
-            this.button1 = new System.Windows.Forms.Button();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
+            this.buttonEqual = new System.Windows.Forms.Button();
+            this.label2 = new System.Windows.Forms.Label();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.button1 = new System.Windows.Forms.Button();
+            this.textBoxTotalQuestion = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
             this.groupSubjects.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
             // groupSubjects
             // 
+            this.groupSubjects.Controls.Add(this.buttonEqual);
+            this.groupSubjects.Controls.Add(this.label2);
             this.groupSubjects.Controls.Add(this.dataGridView1);
             this.groupSubjects.Location = new System.Drawing.Point(65, 12);
             this.groupSubjects.Name = "groupSubjects";
             this.groupSubjects.Size = new System.Drawing.Size(703, 332);
             this.groupSubjects.TabIndex = 0;
             this.groupSubjects.TabStop = false;
-            this.groupSubjects.Text = "groupBox1";
+            // 
+            // buttonEqual
+            // 
+            this.buttonEqual.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.buttonEqual.Location = new System.Drawing.Point(572, 85);
+            this.buttonEqual.Name = "buttonEqual";
+            this.buttonEqual.Size = new System.Drawing.Size(75, 40);
+            this.buttonEqual.TabIndex = 2;
+            this.buttonEqual.Text = "Equal";
+            this.buttonEqual.UseVisualStyleBackColor = true;
+            this.buttonEqual.Click += new System.EventHandler(this.buttonEqual_Click);
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.label2.Location = new System.Drawing.Point(523, 22);
+            this.label2.MaximumSize = new System.Drawing.Size(200, 0);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(180, 60);
+            this.label2.TabIndex = 1;
+            this.label2.Text = "or divide equally between subject ";
+            // 
+            // dataGridView1
+            // 
+            this.dataGridView1.AllowUserToAddRows = false;
+            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView1.Location = new System.Drawing.Point(6, 22);
+            this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.RowTemplate.Height = 25;
+            this.dataGridView1.Size = new System.Drawing.Size(504, 292);
+            this.dataGridView1.TabIndex = 0;
             // 
             // button1
             // 
@@ -58,13 +93,14 @@
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
-            // textBox1
+            // textBoxTotalQuestion
             // 
-            this.textBox1.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.textBox1.Location = new System.Drawing.Point(509, 350);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(100, 36);
-            this.textBox1.TabIndex = 5;
+            this.textBoxTotalQuestion.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.textBoxTotalQuestion.Location = new System.Drawing.Point(509, 350);
+            this.textBoxTotalQuestion.Name = "textBoxTotalQuestion";
+            this.textBoxTotalQuestion.Size = new System.Drawing.Size(100, 36);
+            this.textBoxTotalQuestion.TabIndex = 5;
+            this.textBoxTotalQuestion.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxTotalQuestion_KeyPress);
             // 
             // label1
             // 
@@ -76,27 +112,19 @@
             this.label1.TabIndex = 4;
             this.label1.Text = "enter the number of questions";
             // 
-            // dataGridView1
-            // 
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(6, 22);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.RowTemplate.Height = 25;
-            this.dataGridView1.Size = new System.Drawing.Size(404, 292);
-            this.dataGridView1.TabIndex = 0;
-            // 
             // SubjectMultipleSelectionPage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.textBoxTotalQuestion);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.groupSubjects);
             this.Name = "SubjectMultipleSelectionPage";
             this.Text = "SubjectSelectionPage";
             this.groupSubjects.ResumeLayout(false);
+            this.groupSubjects.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -108,7 +136,9 @@
         private GroupBox groupSubjects;
         private Button button1;
         private DataGridView dataGridView1;
-        private TextBox textBox1;
+        private TextBox textBoxTotalQuestion;
         private Label label1;
+        private Button buttonEqual;
+        private Label label2;
     }
 }

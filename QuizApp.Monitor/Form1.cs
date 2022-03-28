@@ -65,27 +65,23 @@ namespace QuizApp.Monitor
 
             if (remainingSeconds <= 0)
             {
-                // run your function
                 timer.Stop();
             }
 
             labelCountdownToPress.Text = remainingSeconds.ToString();
-            //    String.Format("{0} seconds remaining...", remainingSeconds);
         }
 
         private void timer_TickAnswer(object sender, EventArgs e)
         {
-            int elapsedSeconds = (int)(DateTime.Now - startTime).TotalSeconds;
+            int elapsedSeconds = (int)(DateTime.Now - startTimeToAnswer).TotalSeconds;
             int remainingSeconds = secondsToAnswer - elapsedSeconds;
 
             if (remainingSeconds <= 0)
             {
-                // run your function
                 timerToAnswer.Stop();
             }
 
             labelCountdownToAnswer.Text = remainingSeconds.ToString();
-            //    String.Format("{0} seconds remaining...", remainingSeconds);
         }
         private async void button1_Click(object sender, EventArgs e)
         {
@@ -102,46 +98,47 @@ namespace QuizApp.Monitor
 
         private void FillFields(QuestionDTO currentQuestion)
         {
-            labelSubject.Text = currentQuestion.Subject;
-            labelQuestion.Text = currentQuestion.QuestionText;
-            labelOptions.Text = "";
-            for (int i = 0; i<currentQuestion.Options.Count;i++)
+            try
             {
-                labelOptions.Text += optionsPrefixes[i] + currentQuestion.Options[i] + Environment.NewLine;
+                labelSubject.Text = currentQuestion.Subject;
+                labelQuestion.Text = currentQuestion.QuestionText;
+                labelOptions.Text = "";
+                for (int i = 0; i < currentQuestion.Options.Count; i++)
+                {
+                    labelOptions.Text += optionsPrefixes[i] + currentQuestion.Options[i] + Environment.NewLine;
+                }
+                labelNumberOfParticipants.Text = currentQuestion.ParticipantCount.ToString();
+                labelNumberofQuestions.Text = currentQuestion.NumberOfCurrentQuestion + "/" + currentQuestion.TotalQuestionCount;
+                labelTopScorer.Text = currentQuestion.TopScorer;
+                if (currentQuestion.IsAnswered)
+                {
+                    timerToAnswer.Stop();
+                }
+                else if (!string.IsNullOrEmpty(currentQuestion.AnsweredParticipantName))
+                {
+                    labelAnsweredParticipant.Text = currentQuestion.AnsweredParticipantName;
+                    secondsToAnswer = currentQuestion.TimeToAnswer;
+                    groupBoxAnswer.Enabled = true;
+                    timer.Stop();
+
+                    StartAnswerTimer();
+                }
+                else
+                {
+                    secondsToPressButton = currentQuestion.TimeToPressButton;
+                    groupBoxAnswer.Enabled = false;
+                    labelAnsweredParticipant.Text = "";
+                    labelCountdownToAnswer.Text = "0";
+                    StartButtonTimer();
+                }
             }
-            labelNumberOfParticipants.Text = currentQuestion.ParticipantCount.ToString();
-            labelNumberofQuestions.Text = currentQuestion.NumberOfCurrentQuestion + "/" + currentQuestion.TotalQuestionCount;
-            
-            if(!string.IsNullOrEmpty(currentQuestion.AnsweredParticipantName))
+            catch (Exception ex)
             {
-                labelAnsweredParticipant.Text = currentQuestion.AnsweredParticipantName;
-                secondsToAnswer = currentQuestion.TimeToAnswer;
-                groupBoxAnswer.Enabled = true;
-                timer.Stop();
-                StartAnswerTimer();
-            }
-            else
-            {
-                secondsToPressButton = currentQuestion.TimeToPressButton;
-                groupBoxAnswer.Enabled = false;
-                StartButtonTimer();
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
             }
 
         }
-
-        private async void button2_Click(object sender, EventArgs e)
-        {
-            {
-                try
-                {
-                    await connection.InvokeAsync("SendMessage",
-                        "cevap", "fffff");
-                }
-                catch (Exception ex)
-                {
-                    //messagesList.Items.Add(ex.Message);
-                }
-            }
-        }
+              
     }
 }

@@ -28,36 +28,13 @@ namespace QuizApp
             this.Hide();
             Form form = new QuizMasterEntryPage();
             form.Closed += (s, args) => this.Close();
-            form.Show();
-            //QuestionToMonitorDTO questionToMonitorDTO = new QuestionToMonitorDTO
-            //{
-            //    QuestionText = "Türkiye'nin baþkenti?",
-            //    NumberOfCurrentQuestion = 1,
-            //    Subject = "Coðrafya",
-            //    TimeToPressButton = 60,
-            //    ParticipantCount = 10,
-            //    TotalQuestionCount = 23,
-            //    Options = new List<string>
-            //    {
-            //        "Tokat",
-            //        "Bayburt",
-            //        "Burdur",
-            //        "Ankara"
-            //    }
-            //};
-            
-            //var modelStr = JsonSerializer.Serialize(questionToMonitorDTO);
-            //await connection.StartAsync();
-            //await connection.InvokeAsync("SendMessage",
-            //           modelStr);
-
+            form.Show();          
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
             this.Hide();
-            Form form = new QuizMasterPage();
-            //Form form = new AdminPage();
+            Form form = new AdminPage();
             form.Closed += (s, args) => this.Close();
             form.Show();
         }

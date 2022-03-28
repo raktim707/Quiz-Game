@@ -35,13 +35,10 @@ namespace QuizApp
             for (int j = 0; j < examDTO.ParticipantCount; j++)
             {
                 DataRow row = dt.NewRow();
-                //for (int k = 0; k < 2; k++)
-                //{
-                //    row[k] = null;
-                //}
+                
                 dt.Rows.Add(row);
             }
-            dataGridView1.DataSource = dt;
+            dataGridViewParticipants.DataSource = dt;
         }
 
         private void dataGridView1_AllowUserToAddRowsChanged(object sender, EventArgs e)
@@ -58,45 +55,53 @@ namespace QuizApp
             {
                 MessageBox.Show("please enter a value", "Warning");
                 //dataGridView1.BeginEdit(true);//dataGridView1.CurrentCell = dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex];
-                dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Selected = true;
-                dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = "";
+                dataGridViewParticipants.Rows[e.RowIndex].Cells[e.ColumnIndex].Selected = true;
+                dataGridViewParticipants.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = "";
             }
             else if (e.ColumnIndex == 1 && !cell.Value.ToString().IsNumeric())
             {
                 MessageBox.Show("please enter a numeric value", "Warning");
                 //dataGridView1.BeginEdit(true);//return;
-                dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Selected = true;
-                dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = "";
+                dataGridViewParticipants.Rows[e.RowIndex].Cells[e.ColumnIndex].Selected = true;
+                dataGridViewParticipants.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = "";
             }
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            if (dataGridView1.Rows.Count < examDTO.ParticipantCount)
-                examDTO.ParticipantCount = dataGridView1.Rows.Count;
-            List<ParticipantDTO> participants = new List<ParticipantDTO>();
-
-            foreach (DataRow dr in ((DataTable)dataGridView1.DataSource).Rows)
+            try
             {
-                var participant =
-                     new ParticipantDTO
-                     {
-                         ExamId = examDTO.Id,
-                         Name = dr.Field<string>("ParticipantName"),
-                         ButtonNumber = int.Parse(dr.Field<string>("Button"))
-                     };
+                List<ParticipantDTO> participants = new List<ParticipantDTO>();
+                int participantCount = 0;
+                foreach (DataRow dr in ((DataTable)dataGridViewParticipants.DataSource).Rows)
+                {
+                    if (!string.IsNullOrEmpty(dr.Field<string>("ParticipantName")) && !string.IsNullOrEmpty(dr.Field<string>("Button")))
+                    {
+                        var participant =
+                          new ParticipantDTO
+                          {
+                              ExamId = examDTO.Id,
+                              Name = dr.Field<string>("ParticipantName"),
+                              ButtonNumber = int.Parse(dr.Field<string>("Button"))
+                          };
 
-                participantService.AddParticipant(participant);
+                        participantService.AddParticipant(participant);
+                        participantCount++;
+                    }
+                }
+                if (participantCount < examDTO.ParticipantCount)
+                    examDTO.ParticipantCount = participantCount;
 
-
-
+                this.Hide();
+                Form form = new SubjectCountSelectionPage(examDTO);
+                form.Closed += (s, args) => this.Close();
+                form.Show();
             }
-
-
-            this.Hide();
-            Form form = new SubjectCountSelectionPage(examDTO);
-            form.Closed += (s, args) => this.Close();
-            form.Show();
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
         }
     }
 }

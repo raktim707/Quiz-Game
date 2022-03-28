@@ -10,6 +10,7 @@ namespace QuizApp.Entity.DTO
     {
         public int Id { get; set; }
         public string QuestionText { get; set; }
+        public int SubjectId { get; set; }
         public string Subject { get; set; }
         public string CorrectOption { get; set; }
         public List<string> Options { get; set; }

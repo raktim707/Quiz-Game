@@ -31,7 +31,7 @@
             this.groupSubjects = new System.Windows.Forms.GroupBox();
             this.button1 = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.textBoxQuestionCount = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // groupSubjects
@@ -41,7 +41,6 @@
             this.groupSubjects.Size = new System.Drawing.Size(689, 333);
             this.groupSubjects.TabIndex = 0;
             this.groupSubjects.TabStop = false;
-            this.groupSubjects.Text = "groupBox1";
             // 
             // button1
             // 
@@ -64,20 +63,21 @@
             this.label1.TabIndex = 2;
             this.label1.Text = "enter the number of questions";
             // 
-            // textBox1
+            // textBoxQuestionCount
             // 
-            this.textBox1.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.textBox1.Location = new System.Drawing.Point(469, 350);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(100, 36);
-            this.textBox1.TabIndex = 3;
+            this.textBoxQuestionCount.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.textBoxQuestionCount.Location = new System.Drawing.Point(469, 350);
+            this.textBoxQuestionCount.Name = "textBoxQuestionCount";
+            this.textBoxQuestionCount.Size = new System.Drawing.Size(100, 36);
+            this.textBoxQuestionCount.TabIndex = 3;
+            this.textBoxQuestionCount.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxQuestionCount_KeyPress);
             // 
             // SubjectSingleSelectionPage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.textBoxQuestionCount);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.groupSubjects);
@@ -93,6 +93,6 @@
         private GroupBox groupSubjects;
         private Button button1;
         private Label label1;
-        private TextBox textBox1;
+        private TextBox textBoxQuestionCount;
     }
 }

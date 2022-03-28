@@ -46,26 +46,34 @@ namespace QuizApp
 
         private void button1_Click(object sender, EventArgs e)
         {
-            var selectedQuestion = groupBox2.Controls.OfType<RadioButton>().Where(c => c.Checked).Select(c => new { c.Text, c.Name, c.Tag }).FirstOrDefault();
-            if (selectedQuestion == null)
+            try
             {
-                MessageBox.Show("Please select a subject type", "Warning");
-                return;
-            }
+                var selectedQuestion = groupBox2.Controls.OfType<RadioButton>().Where(c => c.Checked).Select(c => new { c.Text, c.Name, c.Tag }).FirstOrDefault();
+                if (selectedQuestion == null)
+                {
+                    MessageBox.Show("Please select a subject type", "Warning");
+                    return;
+                }
 
-            if(subjectSelectionType== SubjectSelectionType.SingleSelection)
-            {
-                this.Hide();
-                Form form = new SubjectSingleSelectionPage(examDTO);
-                form.Closed += (s, args) => this.Close();
-                form.Show();
+                if (subjectSelectionType == SubjectSelectionType.SingleSelection)
+                {
+                    this.Hide();
+                    Form form = new SubjectSingleSelectionPage(examDTO);
+                    form.Closed += (s, args) => this.Close();
+                    form.Show();
+                }
+                else
+                {
+                    this.Hide();
+                    Form form = new SubjectMultipleSelectionPage(examDTO);
+                    form.Closed += (s, args) => this.Close();
+                    form.Show();
+                }
             }
-            else
+            catch (Exception ex)
             {
-                this.Hide();
-                Form form = new SubjectMultipleSelectionPage(examDTO);
-                form.Closed += (s, args) => this.Close();
-                form.Show();
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
             }
         }
     }

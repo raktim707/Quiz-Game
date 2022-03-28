@@ -31,36 +31,44 @@ namespace QuizApp
 
         private void button1_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(textBox1.Text))
+            try
             {
-                MessageBox.Show("please enter a number of participant", "Warning");
-                return;
-            }
-            else if (!textBox1.Text.IsNumeric())
-            {
-                MessageBox.Show("please enter a valid number of participant", "Warning");
-                return;
-            }
+                if (string.IsNullOrEmpty(textBox1.Text))
+                {
+                    MessageBox.Show("please enter a number of participant", "Warning");
+                    return;
+                }
+                else if (!textBox1.Text.IsNumeric())
+                {
+                    MessageBox.Show("please enter a valid number of participant", "Warning");
+                    return;
+                }
 
-            int numberOfParticipant = Int32.Parse(textBox1.Text);
+                int numberOfParticipant = Int32.Parse(textBox1.Text);
 
-            if (numberOfParticipant < 1)
+                if (numberOfParticipant < 1)
+                {
+                    MessageBox.Show("please enter a valid number of participant", "Warning");
+                    return;
+                }
+                else if (numberOfParticipant > 30)
+                {
+                    MessageBox.Show("please enter a number of participant that less than 30", "Warning");
+                    return;
+                }
+
+                examDTO.ParticipantCount = numberOfParticipant;
+                examDTO = examService.AddExam(examDTO);
+                this.Hide();
+                Form form = new ParticipantsEntryPage(examDTO);
+                form.Closed += (s, args) => this.Close();
+                form.Show();
+            }
+            catch (Exception ex)
             {
-                MessageBox.Show("please enter a valid number of participant", "Warning");
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            else if (numberOfParticipant > 30)
-            {
-                MessageBox.Show("please enter a number of participant that less than 30", "Warning");
-                return;
-            }
-
-            examDTO.ParticipantCount = numberOfParticipant;
-            examDTO = examService.AddExam(examDTO);
-            this.Hide();
-            Form form = new ParticipantsEntryPage(examDTO);
-            form.Closed += (s, args) => this.Close();
-            form.Show();
         }
 
         private void textBox1_KeyPress(object sender, KeyPressEventArgs e)

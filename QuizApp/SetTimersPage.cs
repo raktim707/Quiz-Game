@@ -29,27 +29,35 @@ namespace QuizApp
 
         private void button1_Click(object sender, EventArgs e)
         {
-            if(string.IsNullOrEmpty(textBoxNoSPressButton.Text))
+            try
             {
-                MessageBox.Show("number of seconds to press button field cannot be empty");
-                return;
-            }
-            else if (string.IsNullOrEmpty(textBoxNoSAnswer.Text))
-            {
-                MessageBox.Show("number of seconds to answer field cannot be empty");
-                return;
-            }
-            else
-            {
-                examDTO.AnswerTime= int.Parse(textBoxNoSAnswer.Text);
-                examDTO.PressButtonTime= int.Parse(textBoxNoSPressButton.Text);
+                if (string.IsNullOrEmpty(textBoxNoSPressButton.Text))
+                {
+                    MessageBox.Show("number of seconds to press button field cannot be empty");
+                    return;
+                }
+                else if (string.IsNullOrEmpty(textBoxNoSAnswer.Text))
+                {
+                    MessageBox.Show("number of seconds to answer field cannot be empty");
+                    return;
+                }
+                else
+                {
+                    examDTO.AnswerTime = int.Parse(textBoxNoSAnswer.Text);
+                    examDTO.PressButtonTime = int.Parse(textBoxNoSPressButton.Text);
 
-                examDTO = examService.UpdateExam(examDTO);
+                    examDTO = examService.UpdateExam(examDTO);
 
-                this.Hide();
-                Form form = new QuizMasterPage(examDTO);
-                form.Closed += (s, args) => this.Close();
-                form.Show();
+                    this.Hide();
+                    Form form = new QuizMasterPage(examDTO);
+                    form.Closed += (s, args) => this.Close();
+                    form.Show();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
             }
         }
 
