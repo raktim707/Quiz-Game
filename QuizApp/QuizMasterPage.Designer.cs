@@ -39,7 +39,7 @@
             this.groupSubjects.Controls.Add(this.flowLayoutPanel1);
             this.groupSubjects.Location = new System.Drawing.Point(12, 12);
             this.groupSubjects.Name = "groupSubjects";
-            this.groupSubjects.Size = new System.Drawing.Size(764, 330);
+            this.groupSubjects.Size = new System.Drawing.Size(776, 330);
             this.groupSubjects.TabIndex = 1;
             this.groupSubjects.TabStop = false;
             // 
@@ -49,13 +49,13 @@
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutPanel1.Location = new System.Drawing.Point(3, 19);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(758, 308);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(770, 308);
             this.flowLayoutPanel1.TabIndex = 1;
             // 
             // button1
             // 
             this.button1.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.button1.Location = new System.Drawing.Point(214, 372);
+            this.button1.Location = new System.Drawing.Point(284, 366);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(214, 43);
             this.button1.TabIndex = 2;

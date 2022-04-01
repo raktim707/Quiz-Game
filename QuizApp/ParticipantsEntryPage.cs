@@ -103,5 +103,23 @@ namespace QuizApp
                 return;
             }
         }
+
+        private void dataGridViewParticipants_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
+        {
+            e.Control.KeyPress -= new KeyPressEventHandler(ColumnNumeric_KeyPress);
+            if (dataGridViewParticipants.CurrentCell.ColumnIndex == 1) //Desired Column
+            {
+                TextBox tb = e.Control as TextBox;
+                if (tb != null)
+                {
+                    tb.KeyPress += new KeyPressEventHandler(ColumnNumeric_KeyPress);
+                }
+            }
+        }
+
+        private void ColumnNumeric_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            Utility.Utility.CheckIsNumericChar(e);
+        }
     }
 }

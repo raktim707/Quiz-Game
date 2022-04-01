@@ -46,6 +46,7 @@
             this.dataGridViewParticipants.TabIndex = 0;
             this.dataGridViewParticipants.AllowUserToAddRowsChanged += new System.EventHandler(this.dataGridView1_AllowUserToAddRowsChanged);
             this.dataGridViewParticipants.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellEndEdit);
+            this.dataGridViewParticipants.EditingControlShowing += new System.Windows.Forms.DataGridViewEditingControlShowingEventHandler(this.dataGridViewParticipants_EditingControlShowing);
             // 
             // button1
             // 

@@ -44,16 +44,16 @@
             this.groupSubjects.Controls.Add(this.buttonEqual);
             this.groupSubjects.Controls.Add(this.label2);
             this.groupSubjects.Controls.Add(this.dataGridView1);
-            this.groupSubjects.Location = new System.Drawing.Point(65, 12);
+            this.groupSubjects.Location = new System.Drawing.Point(12, 12);
             this.groupSubjects.Name = "groupSubjects";
-            this.groupSubjects.Size = new System.Drawing.Size(703, 332);
+            this.groupSubjects.Size = new System.Drawing.Size(776, 332);
             this.groupSubjects.TabIndex = 0;
             this.groupSubjects.TabStop = false;
             // 
             // buttonEqual
             // 
             this.buttonEqual.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.buttonEqual.Location = new System.Drawing.Point(572, 85);
+            this.buttonEqual.Location = new System.Drawing.Point(620, 85);
             this.buttonEqual.Name = "buttonEqual";
             this.buttonEqual.Size = new System.Drawing.Size(75, 40);
             this.buttonEqual.TabIndex = 2;
@@ -65,7 +65,7 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.label2.Location = new System.Drawing.Point(523, 22);
+            this.label2.Location = new System.Drawing.Point(571, 22);
             this.label2.MaximumSize = new System.Drawing.Size(200, 0);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(180, 60);
@@ -79,7 +79,7 @@
             this.dataGridView1.Location = new System.Drawing.Point(6, 22);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowTemplate.Height = 25;
-            this.dataGridView1.Size = new System.Drawing.Size(504, 292);
+            this.dataGridView1.Size = new System.Drawing.Size(537, 292);
             this.dataGridView1.TabIndex = 0;
             // 
             // button1

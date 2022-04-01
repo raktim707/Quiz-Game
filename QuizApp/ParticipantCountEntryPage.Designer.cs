@@ -50,7 +50,7 @@
             // button1
             // 
             this.button1.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.button1.Location = new System.Drawing.Point(328, 256);
+            this.button1.Location = new System.Drawing.Point(332, 232);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(126, 37);
             this.button1.TabIndex = 9;
@@ -61,7 +61,7 @@
             // textBox1
             // 
             this.textBox1.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.textBox1.Location = new System.Drawing.Point(235, 199);
+            this.textBox1.Location = new System.Drawing.Point(239, 175);
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(325, 36);
             this.textBox1.TabIndex = 8;
@@ -71,7 +71,7 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.label2.Location = new System.Drawing.Point(235, 150);
+            this.label2.Location = new System.Drawing.Point(239, 126);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(325, 30);
             this.label2.TabIndex = 7;

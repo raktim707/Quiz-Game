@@ -36,9 +36,9 @@
             // 
             // groupSubjects
             // 
-            this.groupSubjects.Location = new System.Drawing.Point(65, 12);
+            this.groupSubjects.Location = new System.Drawing.Point(12, 12);
             this.groupSubjects.Name = "groupSubjects";
-            this.groupSubjects.Size = new System.Drawing.Size(689, 333);
+            this.groupSubjects.Size = new System.Drawing.Size(776, 333);
             this.groupSubjects.TabIndex = 0;
             this.groupSubjects.TabStop = false;
             // 
